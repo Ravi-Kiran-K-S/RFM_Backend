@@ -27,7 +27,7 @@ jwt = JWTManager(app)
 
 # Configure CORS with allowed origins from environment
 cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:80")
-CORS(app, origins=cors_origins.split(","), supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 
 @app.route("/api/users")
