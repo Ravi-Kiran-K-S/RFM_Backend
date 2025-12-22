@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import database_exists, create_database
 
 # Load environment variables
 load_dotenv()
@@ -36,7 +37,10 @@ class Users(Base):
     email = Column(String(256))
     password = Column(String(256))
 
-
+if not database_exists(db_url):
+    print(f"Database {mysql_database} not found. Creating...")
+    create_database(db_url)
+    print("Database created successfully.")
 engine = create_engine(
     f"mysql+pymysql://{mysql_user}:{encoded_password}@{mysql_host}:{mysql_port}/{mysql_database}",
     pool_pre_ping=True,  # Check connection before use
