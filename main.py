@@ -29,7 +29,8 @@ jwt = JWTManager(app)
 # Configure CORS with allowed origins from environment
 cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:80")
 CORS(app, supports_credentials=True)
-Migrate(app, Base, db=engine)
+migrate = Migrate(app, db=engine)
+migrate.configure(metadata=Base.metadata)
 
 
 @app.route("/api/users")
