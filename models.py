@@ -19,7 +19,7 @@ except FileNotFoundError:
         raise ValueError("MYSQL_PASSWORD environment variable or Docker secret is not set.")
 
 # Get other database config from environment
-mysql_user = os.getenv("MYSQL_USER", "RK")
+mysql_user = os.getenv("MYSQL_USER", "root")
 mysql_host = os.getenv("MYSQL_HOST", "mysqlhost")
 mysql_database = os.getenv("MYSQL_DATABASE", "flaskapp")
 mysql_port = os.getenv("MYSQL_PORT", "3306")
