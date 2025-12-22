@@ -36,13 +36,13 @@ class Users(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(256))
     password = Column(String(256))
-
+db_url=f"mysql+pymysql://{mysql_user}:{encoded_password}@{mysql_host}:{mysql_port}/{mysql_database}"
 if not database_exists(db_url):
     print(f"Database {mysql_database} not found. Creating...")
     create_database(db_url)
     print("Database created successfully.")
 engine = create_engine(
-    f"mysql+pymysql://{mysql_user}:{encoded_password}@{mysql_host}:{mysql_port}/{mysql_database}",
+    db_url,
     pool_pre_ping=True,  # Check connection before use
     pool_recycle=3600,   # Recycle connections after 1 hour
 )
