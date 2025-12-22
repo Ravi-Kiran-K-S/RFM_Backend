@@ -1,5 +1,6 @@
 import os
 from flask import Flask, jsonify, request
+from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import (
     JWTManager,
@@ -7,7 +8,7 @@ from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
 )
-from models import Session, Users
+from models import Session, Users, engine, Base
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # Load environment variables
@@ -28,6 +29,7 @@ jwt = JWTManager(app)
 # Configure CORS with allowed origins from environment
 cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:80")
 CORS(app, supports_credentials=True)
+migrate = Migrate(app, Base.metadata)
 
 
 @app.route("/api/users")
