@@ -20,9 +20,9 @@ except FileNotFoundError:
 
 # Get other database config from environment
 mysql_user = os.getenv("MYSQL_USER", "RK")
-mysql_host = os.getenv("MYSQL_HOST", "mysqlhost")
+mysql_host = os.getenv("MYSQL_HOST", "host.docker.internal")
 mysql_database = os.getenv("MYSQL_DATABASE", "flaskapp")
-mysql_port = os.getenv("MYSQL_PORT", "3306")
+mysql_port = os.getenv("MYSQL_PORT", "1337")
 
 encoded_password = urllib.parse.quote(mysqlpass)
 
