@@ -5,3 +5,5 @@ Flask-SQLAlchemy==3.0.5
 PyMySQL==1.1.0
 Werkzeug==2.3.7
 python-dotenv==1.0.0
+Flask-Migrate==4.1.0
+SQLAlchemy-Utils==0.42.1

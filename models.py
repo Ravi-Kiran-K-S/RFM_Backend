@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import database_exists, create_database
 
 # Load environment variables
 load_dotenv()
@@ -19,10 +20,10 @@ except FileNotFoundError:
         raise ValueError("MYSQL_PASSWORD environment variable or Docker secret is not set.")
 
 # Get other database config from environment
-mysql_user = os.getenv("MYSQL_USER", "root")
-mysql_host = os.getenv("MYSQL_HOST", "mysqlhost")
+mysql_user = os.getenv("MYSQL_USER", "RK")
+mysql_host = os.getenv("MYSQL_HOST", "host.docker.internal")
 mysql_database = os.getenv("MYSQL_DATABASE", "flaskapp")
-mysql_port = os.getenv("MYSQL_PORT", "3306")
+mysql_port = os.getenv("MYSQL_PORT", "1337")
 
 encoded_password = urllib.parse.quote(mysqlpass)
 
@@ -35,10 +36,13 @@ class Users(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(256))
     password = Column(String(256))
-
-
+db_url=f"mysql+pymysql://{mysql_user}:{encoded_password}@{mysql_host}:{mysql_port}/{mysql_database}"
+if not database_exists(db_url):
+    print(f"Database {mysql_database} not found. Creating...")
+    create_database(db_url)
+    print("Database created successfully.")
 engine = create_engine(
-    f"mysql+pymysql://{mysql_user}:{encoded_password}@{mysql_host}:{mysql_port}/{mysql_database}",
+    db_url,
     pool_pre_ping=True,  # Check connection before use
     pool_recycle=3600,   # Recycle connections after 1 hour
 )
