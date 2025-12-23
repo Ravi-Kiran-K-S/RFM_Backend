@@ -1,6 +1,7 @@
 ---
 - name: Deploy RFM Application backend
   hosts: webserver
+  become: true
   vars:
     # Deployment target directory on remote host
     deploy_path: "/opt/rfm_app"
